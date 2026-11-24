@@ -1,12 +1,8 @@
-#!/usr/bin/env python3
-"""news-image-20261124 entry (Python 3.13, standard library only).
+"""news-image-20261124: copy the finished front page to the output dir.
 
-The entry is a front-page image summing up the world news of Tuesday
-24 November 2026. The image itself is entry.png beside this file; this
-program copies it to the grader's output directory as entry.png.
-
-Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
-    mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+The image (entry.png) sits next to this script. Running the script places
+an identical copy at $MAKEFUN_OUTPUT_DIR/entry.png (default /output).
+Standard library only; no network access.
 """
 
 import os
@@ -21,10 +17,9 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     dest = os.path.join(out_dir, "entry.png")
     shutil.copyfile(SOURCE, dest)
-    # Verify the copy landed intact: same size as the source, or fail loudly
-    # instead of silently handing the grader a truncated image.
     if os.path.getsize(dest) != os.path.getsize(SOURCE):
-        raise SystemExit("entry.png copy failed: size mismatch")
+        raise SystemExit("error: copied file size does not match entry.png")
+    print(f"wrote {dest}")
 
 
 if __name__ == "__main__":
